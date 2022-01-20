@@ -4,8 +4,11 @@ This is a discord bot that crashes minecraft servers using exploits.
 
 # Requiments
 [Node.js 16.6.0 or higher](https://nodejs.org/en/download/)
+
 [Discord.js v13](https://discord.js.org "Discord.js v13")
+
 [node-os-utils](https://www.npmjs.com/package/node-os-utils "node-os-utils")
+
 [moment](https://www.npmjs.com/package/moment "moment")
 
 # Commands
@@ -23,6 +26,9 @@ This is a discord bot that crashes minecraft servers using exploits.
   * auth - Usage (auth ip:port)
 
 > Language bot: Russian
+
+# Screenshot
+![AboutScreen](https://user-images.githubusercontent.com/31757032/150298339-bb227406-0ae9-4095-befd-818726378b3a.png)
 
 # Example
 [Example using this bot](https://www.youtube.com/watch?v=5_bqOTMevdg)
