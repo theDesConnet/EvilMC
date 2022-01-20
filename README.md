@@ -12,15 +12,15 @@ This is a discord bot that crashes minecraft servers using exploits.
 > Default prefix ";"
 
 * Other
- * botping - Pong!
- * vpsusage - Checking used cpu and memory on vps
- * about -About bot
+  * botping - Pong!
+  * vpsusage - Checking used cpu and memory on vps
+  * about -About bot
 
 * Crashers
- * avarion - Usage (avarion ip:port)
- * nullping - Usage (nullping ip:port)
- * extreme - Usage (extreme ip:port type) types: [byte1, byte2]
- * auth - Usage (auth ip:port)
+  * avarion - Usage (avarion ip:port)
+  * nullping - Usage (nullping ip:port)
+  * extreme - Usage (extreme ip:port type) types: [byte1, byte2]
+  * auth - Usage (auth ip:port)
 
 > Language bot: Russian
 
