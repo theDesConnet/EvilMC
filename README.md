@@ -4,8 +4,11 @@ This is a discord bot that crashes minecraft servers using exploits.
 
 # Requiments
 [Node.js 16.6.0 or higher](https://nodejs.org/en/download/)
+
 [Discord.js v13](https://discord.js.org "Discord.js v13")
+
 [node-os-utils](https://www.npmjs.com/package/node-os-utils "node-os-utils")
+
 [moment](https://www.npmjs.com/package/moment "moment")
 
 # Commands
