@@ -1,6 +1,10 @@
 {
-    "token":"token id here",
+    "token":"tokenhere",
     "prefix":";",
-    "owner":"your id here",
-    "whitelistmode":false
+    "owner":"",
+    "whitelistmode": true,
+    "attackchannelmode": {
+        "enable": false,
+        "channelid": "idchannelhere"
+    }
 }
