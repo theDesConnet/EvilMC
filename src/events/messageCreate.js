@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 const whitelist = require('../jsons/whitelist.json').whitelistid;
 const { exec } = require('child_process');
 const attack = require('../jsons/attacks.json');
-const fs = require('fs')
 
 
 module.exports = new Event('messageCreate', (client, message) => {
@@ -22,6 +21,8 @@ module.exports = new Event('messageCreate', (client, message) => {
             .setFooter(`${message.guild.name} | EvilMC`, client.user.avatarURL('jpg'))
         message.channel.send({ embeds: [errembed] })
     }
+
+    if (config.attackchannelmode.enable === true && message.channel.id != config.attackchannelmode.channelid) return errorembed("Активироан режим одного канала.")
 
     /**
      * 
@@ -54,20 +55,16 @@ module.exports = new Event('messageCreate', (client, message) => {
                 setTimeout(function () {
                     msg.edit({ embeds: [endembed] });
                     attack.run = false;
-                    fs.writeFile('./jsons/attacks.json', JSON.stringify(attack), err => {
-                        if(err){
-                            return errorembed("Ошибка записи в файл (Пожалйста обратитесь к DesConnet)")
-                        }
+                    fs.writeFile('../jsons/attacks.json', JSON.stringify(attack)).catch(err => {
+                        return errorembed("Ошибка записи в файл (Пожалйста обратитесь к DesConnet)")
                     })
                 }, 60000)
             });
         }else{ 
             message.channel.send({ embeds: [runembed] })
             attack.run = false;
-            fs.writeFile('./jsons/attacks.json', JSON.stringify(attack), err => {
-                if(err){
-                     return errorembed("Ошибка записи в файл (Пожалйста обратитесь к DesConnet)")
-                }
+            fs.writeFile('../jsons/attacks.json', JSON.stringify(attack)).catch(err => {
+                return errorembed("Ошибка записи в файл (Пожалйста обратитесь к DesConnet)")
             })
         }
     }
@@ -81,11 +78,9 @@ module.exports = new Event('messageCreate', (client, message) => {
     global.runjar = function runjar(jar, args, timeout) {
         if (timeout == true) {
             attack.run = true;
-            fs.writeFile('./jsons/attacks.json', JSON.stringify(attack), err => {
-                if(err){
-                    return errorembed("Ошибка записи в файл (Пожалйста обратитесь к DesConnet)")
-                    console.log(err)
-                }
+            fs.writeFile('../jsons/attacks.json', JSON.stringify(attack)).catch(err => {
+                return errorembed("Ошибка записи в файл (Пожалйста обратитесь к DesConnet)")
+                console.log(err)
             })
             exec(`timeout 60 java -Dperdelay=2500 -Ddelay=1 -Drmnwp=false -jar jars/${jar} ${args}`, (error, stdout, stderr) => {
                 if (error) {
@@ -101,11 +96,9 @@ module.exports = new Event('messageCreate', (client, message) => {
             })
         } else {
             attack.run = true;
-            fs.writeFile('./jsons/attacks.json', JSON.stringify(attack), err => {
-                if(err){
-                    return errorembed("Ошибка записи в файл (Пожалйста обратитесь к DesConnet)")
-                    console.log(err)
-                }
+            fs.writeFile('../jsons/attacks.json', JSON.stringify(attack)).catch(err => {
+                return errorembed("Ошибка записи в файл (Пожалйста обратитесь к DesConnet)")
+                console.log(err)
             })
             exec(`java -Dperdelay=2500 -Ddelay=1 -Drmnwp=false -jar jars/${jar} ${args}`, (error, stdout, stderr) => {
                 if (error) {
@@ -123,11 +116,12 @@ module.exports = new Event('messageCreate', (client, message) => {
     }
 
     if (!command) return;
-    if(config.whitelistmode === true && !whitelist.includes(message.author.id)) return errorembed("Вы не находитесь в Вайтлисте!");
+
+    if (config.whitelistmode === true && !whitelist.includes(message.author.id)) return errorembed("Вы не находитесь в Вайтлисте!");
 
     const permission = message.member.permissions.has(command.permissions);
     if (!permission) return errorembed(`Отсутвует разрешение: \`${permission}\` для выполнения данной команды`);
-    if (attack.run === true && command.name != "stop") return errorembed('В данный момент уже запущена атака, пожалуйста подождите пока атака завершится');
+    if (attack.run === true) return errorembed('В данный момент уже запущена атака, пожалуйста подождите пока атака завершится');
 
     command.execute(client, args, message);
 })
