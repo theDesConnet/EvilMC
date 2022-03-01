@@ -11,6 +11,10 @@ This is a discord bot that crashes minecraft servers using exploits.
 
 [moment](https://www.npmjs.com/package/moment "moment")
 
+Linux to host this bot
+
+[minecraft-server-util](https://www.npmjs.com/package/minecraft-server-util)
+
 # Commands
 > Default prefix ";"
 
