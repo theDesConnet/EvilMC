@@ -37,6 +37,15 @@ Linux to host this bot
 # Example
 [Example using this bot](https://www.youtube.com/watch?v=5_bqOTMevdg)
 
+# ToDo
+ * New method crashers
+ * Add working proxies
+ * Bots...
+ * Slash Commands
+ * Optimize code
+
+> The list will be updated
+
 # Support Author
 DonationAlerts: https://www.donationalerts.com/r/desconnet
 
