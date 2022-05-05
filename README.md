@@ -43,6 +43,7 @@ Linux to host this bot
  * Bots...
  * Slash Commands
  * Optimize code
+ * Multilanguage support
 
 > The list will be updated
 
