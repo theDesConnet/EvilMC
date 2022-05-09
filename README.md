@@ -41,7 +41,7 @@ This is a discord bot that crashes minecraft servers using exploits.
  * New method crashers
  * Add working proxies
  * Bots...
- * Slash Commands
+ ~~* Slash Commands~~
  * Optimize code
  * Multilanguage support
 
