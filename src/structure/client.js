@@ -31,8 +31,24 @@ class Client extends Discord.Client {
         const commands = commandFiles.map(file => require(`../commands/${file}`));
 
         commands.forEach(cmd => {
-            console.log(`Команда: ${cmd.name} была загружена!`);
             this.commands.set(cmd.name, cmd);
+        })
+
+        const slashCommands = commands.map(cmd => ({
+            name: cmd.name,
+            description: cmd.description,
+            permissions: [],
+            options: cmd.slashCommandOptions,
+            defaultPermission: true
+        }));
+
+        this.removeAllListeners();
+        this.on("ready", async () => {
+            const command = await this.application.commands.set(slashCommands);
+
+            command.forEach((cmd) => {
+                console.log(`[INFO] Slash команда "${cmd.name} была загружена"`);
+            })
         })
 
         fs.readdirSync('./events/')

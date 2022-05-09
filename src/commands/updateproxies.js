@@ -8,9 +8,10 @@ const moment = require('moment');
 
 module.exports = new Command({
     name: "updateproxies",
-    description: "Обновляем прокси",
+    description: "Update proxy",
     permissions: "SEND_MESSAGES",
-    async execute(client, args, message){
+    slashCommandOptions: [],
+    async execute(client, args, interaction, crashers){
         var url = "https://api.openproxylist.xyz/socks4.txt"
         const file = fs.createWriteStream("./jars/socks_proxies.txt")
         fs.writeFileSync('./jars/socks_proxies.txt', ' ');
@@ -21,7 +22,7 @@ module.exports = new Command({
         const embed = new Discord.MessageEmbed()
         .setTitle("Успех!")
         .setDescription(`Прокси были успешно обновлены!`)
-        .setFooter(`${message.guild.name} | EvilMC`, client.user.avatarURL([format='jpg']))
-        message.channel.send({embeds: [embed]})
+        .setFooter(`${message.guild.name} | EvilMC`, client.user.displayAvatarURL(dynamic = true))
+        interaction.reply({embeds: [embed]})
     }
 })
