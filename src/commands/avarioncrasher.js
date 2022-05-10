@@ -21,6 +21,8 @@ module.exports = new Command({
     async execute(client, args, interaction, crashers){
         const host = args.getString("host");
         const port = args.getNumber("port") || 25565;
+
+        if (/^[a-zA-Z0-9.]+$/.test(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP");
         
         crashers.runcrasher(client, interaction, {
             jarname: "AvarionCrasher.jar",

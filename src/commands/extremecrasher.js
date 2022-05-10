@@ -35,6 +35,9 @@ module.exports = new Command({
         const port = args.getNumber("port") || 25565;
         const type = args.getString("type");
 
+
+        if (/^[a-zA-Z0-9.]+$/.test(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP"); 
+
         crashers.runcrasher(client, interaction, {
             jarname: "ultimate.jar",
             jarargs: `host=${host} port=${port} proxiesFile=proxies/socks_proxies.txt threads=${threads.extreme} attackTime=60 exploit=${type}`

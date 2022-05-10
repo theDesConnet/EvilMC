@@ -23,6 +23,8 @@ module.exports = new Command({
         const host = args.getString("host");
         const port = args.getNumber("port");
 
+        if (/^[a-zA-Z0-9.]+$/.test(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP");
+
         if (!port) {
             util.status(host).then((responce) => {
                 let embed = new Discord.MessageEmbed({
