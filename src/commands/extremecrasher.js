@@ -2,6 +2,7 @@
 
 const Command = require('../structure/command.js');
 const threads = require('../jsons/threads.json');
+const hostValidattor = require('is-valid-hostname');
 
 module.exports = new Command({
     name: "extreme",
@@ -36,7 +37,7 @@ module.exports = new Command({
         const type = args.getString("type");
 
 
-        if (/^[a-zA-Z0-9.]+$/.test(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP"); 
+        if (hostValidattor(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP"); 
 
         crashers.runcrasher(client, interaction, {
             jarname: "ultimate.jar",

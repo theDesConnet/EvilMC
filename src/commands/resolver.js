@@ -3,6 +3,7 @@
 const Command = require('../structure/command.js');
 const Discord = require('discord.js');
 const util = require('minecraft-server-util');
+const hostValidattor = require('is-valid-hostname');
 
 module.exports = new Command({
     name: "resolver",
@@ -23,7 +24,7 @@ module.exports = new Command({
         const host = args.getString("host");
         const port = args.getNumber("port");
 
-        if (/^[a-zA-Z0-9.]+$/.test(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP");
+        if (hostValidattor(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP");
 
         if (!port) {
             util.status(host).then((responce) => {
