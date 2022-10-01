@@ -1,4 +1,9 @@
 {
     "token":"token-here",
-    "whitelistmode": false
+    "whitelistmode": false,
+    "unstopableMode": {
+        "enableUnstopableMode": true,
+        "stopAttackOnlyOwnerAttack": true
+    },
+    "countAttacks": 1
 }

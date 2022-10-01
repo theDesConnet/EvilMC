@@ -10,8 +10,9 @@ module.exports = new Command({
     name: "updateproxies",
     description: "Update proxy",
     permissions: "SEND_MESSAGES",
+    disableOnAttack: true,
     slashCommandOptions: [],
-    async execute(client, args, interaction, crashers){
+    async execute(client, args, interaction){
         var url = "https://api.openproxylist.xyz/socks4.txt"
         const file = fs.createWriteStream("./jars/socks_proxies.txt")
         fs.writeFileSync('./jars/socks_proxies.txt', ' ');

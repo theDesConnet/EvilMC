@@ -1,7 +1,10 @@
 const Discord = require('discord.js');
 const Command = require('./command.js');
 const Event = require('./event.js');
-const config = require('../jsons/config.json');
+const Attack = require('./attack.js');
+const Button = require('./button.js');
+const selectMenu = require('./selectMenu.js');
+const Modal = require('./modal.js');
 
 const intents = new Discord.Intents(32767);
 
@@ -17,16 +20,36 @@ class Client extends Discord.Client {
          */
         this.commands = new Discord.Collection()
 
-        this.prefix = config.prefix;
+        /**
+         * @type {Discord.Collection<string, Attack>}
+         */
+        this.attacks = new Discord.Collection()
+
+        /**
+         * @type {Discord.Collection<string, Button>}
+         */
+        this.buttons = new Discord.Collection();
+
+        /**
+         * @type {Discord.Collection<string, selectMenu>}
+         */
+        this.selectMenus = new Discord.Collection();
+
+        /**
+         * @type {Discord.Collection<string, Modal>}
+         */
+        this.modals = new Discord.Collection();
     }
 
-    RunBot(token) {       
+    RunBot(token) {
         //Обработчик команд
         const commandFiles = fs.readdirSync('./commands/')
-            .filter(file => file.endsWith('.js'));
-            /**
-             * @type {Command[]}
-             */
+            .filter(file => file.endsWith('.js'))
+            .filter(file => !file.startsWith("_"));
+
+        /**
+         * @type {Command[]}
+         */
 
         const commands = commandFiles.map(file => require(`../commands/${file}`));
 
@@ -41,6 +64,39 @@ class Client extends Discord.Client {
             options: cmd.slashCommandOptions,
             defaultPermission: true
         }));
+
+        //Обработчик компонентов
+        fs.readdirSync('./components/').forEach(component => {
+            const components = fs.readdirSync(`./components/${component}/`)
+                .filter(file => file.endsWith('.js'))
+                .filter(file => !file.startsWith("_"));
+
+            switch (component) {
+                case "buttons":
+                    components.forEach((button) => {
+                        const btn = require(`../components/buttons/${button}`)
+                        this.buttons.set(btn.buttonID, btn);
+                        console.log(`[INFO] Компонент (Кнопка) с ID "${btn.buttonID}" была успешно загружена`);
+                    })
+                    break;
+
+                case "selectMenus":
+                    components.forEach((SelectMenu) => {
+                        const selMenu = require(`../components/selectMenus/${SelectMenu}`)
+                        this.selectMenus.set(selMenu.selectMenuID, selMenu);
+                        console.log(`[INFO] Компонент (selectMenu) с ID "${selMenu.selectMenuID}" была успешно загружена`);
+                    })
+                    break;
+
+                case "modals":
+                    components.forEach((modal) => {
+                        const modalInteraction = require(`../components/modals/${modal}`)
+                        this.modals.set(modalInteraction.modalID, modalInteraction);
+                        console.log(`[INFO] Компонент (Modal) с ID "${modalInteraction.modalID}" была успешно загружена`);
+                    })
+                    break;
+            }
+        })
 
         this.removeAllListeners();
         this.on("ready", async () => {

@@ -1,6 +1,5 @@
 const Event = require('../structure/event.js');
 const crashers = require('../functions/crashers.js');
-const attack = require('../jsons/attacks.json');
 const whitelist = require('../jsons/whitelist.json').whitelistid;
 const config = require('../jsons/config.json');
 
@@ -13,10 +12,51 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
 
         if (!command) return;
 
-        if (attack.run === true) return crashers.errorembed(client, interaction, interaction.commandName, 'В данный момент уже запущена атака, пожалуйста подождите пока атака завершится');
+        console.log(client.attacks.size);
+
+        if (client.attacks.size >= config.countAttacks && command.disableOnAttack) return crashers.errorembed(client, interaction, interaction.commandName, 'Превышено количество одновременных атак!');
 
         if (config.whitelistmode === true && !whitelist.includes(interaction.user.id)) return crashers.errorembed(client, interaction, interaction.commandName, "Вы не находитесь в Вайтлисте!");
 
-        command.execute(client, args, interaction, crashers);
+        return command.execute(client, args, interaction);
     } 
+
+    if (interaction.isButton()) { //Обработчик Кнопок 
+        const button = client.buttons.get(interaction.customId);
+
+        if (!button) return;
+        if (button.onlyAttackOwner) {
+            const Attack = client.attacks.find(x => x.msgID == interaction.message.id);
+            if (!Attack) return interaction.reply({content: "Данная атака уже не действительна", ephemeral: true});
+            if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "Это не ваша атака", ephemeral: true});
+        }
+
+        return button.execute(client, interaction);
+    }
+
+    if (interaction.isSelectMenu()) { //Обработчик selectMenu
+        const selectMenu = client.selectMenus.get(interaction.customId);
+
+        if (!selectMenu) return;
+        if (selectMenu.onlyAttackOwner) {
+            const Attack = client.attacks.find(x => x.msgID == interaction.message.id);
+            if (!Attack) return interaction.reply({content: "Данная атака уже не действительна", ephemeral: true});
+            if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "Это не ваша атака", ephemeral: true});
+        }
+
+        return selectMenu.execute(client, interaction);
+    }
+
+    if (interaction.isModalSubmit()) {
+        const Modal = client.modals.get(interaction.customId);
+
+        if (!Modal) return;
+        if (Modal.onlyAttackOwner) {
+            const Attack = client.attacks.find(x => x.msgID == interaction.message.id);
+            if (!Attack) return interaction.reply({content: "Данная атака уже не действительна", ephemeral: true});
+            if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "Это не ваша атака", ephemeral: true});
+        }
+
+        return Modal.execute(client, interaction);
+    }
 });

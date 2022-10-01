@@ -1,6 +1,5 @@
 const Event = require('../structure/event.js');
 const config = require('../jsons/config.json');
-const attacks = require('../jsons/attacks.json');
 const fs = require('fs');
 
 
