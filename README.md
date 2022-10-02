@@ -2,6 +2,8 @@
 This is a discord bot that crashes minecraft servers using exploits.
 > It does not work on all servers.
 
+> And this project was unfinished 
+
 # Requiments
 [Node.js 16.6.0 or higher](https://nodejs.org/en/download/)
 
@@ -16,18 +18,19 @@ This is a discord bot that crashes minecraft servers using exploits.
 [minecraft-server-util](https://www.npmjs.com/package/minecraft-server-util)
 
 # Commands
-> Default prefix ";"
+> Only slash commands
 
 * Other
   * botping - Pong!
-  * vpsusage - Checking used cpu and memory on vps
+  * hostusage - Checking used cpu and memory on host
+  * resolver - Resolving server
   * about -About bot
 
 * Crashers
-  * avarion - Usage (avarion ip:port)
-  * nullping - Usage (nullping ip:port)
-  * extreme - Usage (extreme ip:port type) types: [byte1, byte2]
-  * auth - Usage (auth ip:port)
+  * avarion
+  * nullping
+  * extreme
+  * auth
 
 > Language bot: Russian
 
