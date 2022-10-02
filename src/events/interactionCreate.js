@@ -14,6 +14,8 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
 
         console.log(client.attacks.size);
 
+        if (args.getBoolean("unstopable") ? args.getBoolean("unstopable") : false && config.unstopableMode.enableUnstopableMode == false) return crashers.errorembed(client, interaction, interaction.commandName, 'Режим атаки без остановки в данном боте отключен!');
+
         if (client.attacks.size >= config.countAttacks && command.disableOnAttack) return crashers.errorembed(client, interaction, interaction.commandName, 'Превышено количество одновременных атак!');
 
         if (config.whitelistmode === true && !whitelist.includes(interaction.user.id)) return crashers.errorembed(client, interaction, interaction.commandName, "Вы не находитесь в Вайтлисте!");
