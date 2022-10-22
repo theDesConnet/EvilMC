@@ -9,12 +9,11 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
     if (interaction.isCommand()) { //Обработчик Slash команд 
         const command = client.commands.find(cmd => cmd.name == interaction.commandName);
         const args = interaction.options;
+        const unstop = args.getBoolean("unstopable") || false;
 
         if (!command) return;
 
-        console.log(client.attacks.size);
-
-        if (args.getBoolean("unstopable") ? args.getBoolean("unstopable") : false && config.unstopableMode.enableUnstopableMode == false) return crashers.errorembed(client, interaction, interaction.commandName, 'Режим атаки без остановки в данном боте отключен!');
+        if (unstop && config.unstopableMode.enableUnstopableMode == false) return crashers.errorembed(client, interaction, interaction.commandName, 'Режим атаки без остановки в данном боте отключен!');
 
         if (client.attacks.size >= config.countAttacks && command.disableOnAttack) return crashers.errorembed(client, interaction, interaction.commandName, 'Превышено количество одновременных атак!');
 
