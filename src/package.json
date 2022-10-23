@@ -1,22 +1,20 @@
 {
   "name": "evilmc",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "a Discord bot for Crashing minecraft server",
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "DesConnet",
-  "license": "ISC",
+  "license": "GPL2.0",
   "dependencies": {
     "discord.js": "^13.6.0",
-    "fkill": "^8.0.1",
     "minecraft-server-util": "^5.2.9",
-    "mineflayer": "^4.3.0",
     "moment": "^2.29.1",
-    "mongoose": "^6.3.2",
     "node-os-utils": "^1.3.5",
-    "tree-kill": "^1.2.2"
+    "tree-kill": "^1.2.2",
+    "is-valid-hostname": "^1.0.2"
   },
   "engines": {
     "node": ">=16.6.0"
