@@ -26,7 +26,7 @@ module.exports = new Command({
         const host = args.getString("host");
         const port = args.getNumber("port");
 
-        if (hostValidattor(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP");
+        if (hostValidattor(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Invalid IP");
 
         try {
             let responce;
@@ -37,7 +37,7 @@ module.exports = new Command({
             let embed = new Discord.MessageEmbed({
                 color: 'RANDOM',
                 author: {
-                    name: `Информация о сервере "${host}"`,
+                    name: `Server Information: "${host}"`,
                 },
                 fields: [{
                     name: "Version",
