@@ -18,11 +18,11 @@ module.exports = new Command({
         fs.writeFileSync('./jars/socks_proxies.txt', ' ');
         const request = https.get(url, function(response) {
             response.pipe(file)
-            console.log(`[${moment.utc(Date.now())}] [*] Прокси успешно обновлены`)
+            console.log(`[${moment.utc(Date.now())}] [*] Proxies successfully updated`)
         });
         const embed = new Discord.MessageEmbed()
         .setTitle("Успех!")
-        .setDescription(`Прокси были успешно обновлены!`)
+        .setDescription(`Proxies have been successfully updated!`)
         .setFooter(`${message.guild.name} | EvilMC`, client.user.displayAvatarURL(dynamic = true))
         interaction.reply({embeds: [embed]})
     }
