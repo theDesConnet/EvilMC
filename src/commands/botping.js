@@ -11,7 +11,7 @@ module.exports = new Command({
     slashCommandOptions: [],
     async execute(client, args, interaction){
         let embed = new Discord.MessageEmbed()
-        .setDescription(`:heart:Сердцебиение клиента: ${Date.now() - interaction.createdTimestamp}мс\n:satellite:Ответ api Discord: ${client.ws.ping | 0 }мс`)
+        .setDescription(`:heart:Client Heartbeat: ${Date.now() - interaction.createdTimestamp}мс\n:satellite:Discord API response: ${client.ws.ping | 0 }мс`)
         .setColor('GREEN')
         .setFooter({
             text: `${interaction.guild.name} | EvilMC`,
