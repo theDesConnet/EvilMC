@@ -76,7 +76,7 @@ class Client extends Discord.Client {
                     components.forEach((button) => {
                         const btn = require(`../components/buttons/${button}`)
                         this.buttons.set(btn.buttonID, btn);
-                        console.log(`[INFO] Компонент (Кнопка) с ID "${btn.buttonID}" была успешно загружена`);
+                        console.log(`[INFO] Component (Button) with ID "${btn.buttonID}" was successfully loaded`);
                     })
                     break;
 
@@ -84,7 +84,7 @@ class Client extends Discord.Client {
                     components.forEach((SelectMenu) => {
                         const selMenu = require(`../components/selectMenus/${SelectMenu}`)
                         this.selectMenus.set(selMenu.selectMenuID, selMenu);
-                        console.log(`[INFO] Компонент (selectMenu) с ID "${selMenu.selectMenuID}" была успешно загружена`);
+                        console.log(`[INFO] Component (selectMenu) with ID "${selMenu.selectMenuID}" was successfully loaded`);
                     })
                     break;
 
@@ -92,7 +92,7 @@ class Client extends Discord.Client {
                     components.forEach((modal) => {
                         const modalInteraction = require(`../components/modals/${modal}`)
                         this.modals.set(modalInteraction.modalID, modalInteraction);
-                        console.log(`[INFO] Компонент (Modal) с ID "${modalInteraction.modalID}" была успешно загружена`);
+                        console.log(`[INFO] Component (Modals) with ID "${modalInteraction.modalID}" was successfully loaded`);
                     })
                     break;
             }
@@ -103,7 +103,7 @@ class Client extends Discord.Client {
             const command = await this.application.commands.set(slashCommands);
 
             command.forEach((cmd) => {
-                console.log(`[INFO] Slash команда "${cmd.name} была загружена"`);
+                console.log(`[INFO] Slash command "${cmd.name} has been loaded"`);
             })
         })
 
@@ -121,7 +121,7 @@ class Client extends Discord.Client {
         //Логин бота
         this.login(token).catch(err => {
             if (err == "Error [TOKEN_INVALID]: An invalid token was provided.") {
-                return console.log("Ошибка:\nТокен недействителен или он отсутствует\n\nEvilMC\nc0d9d by DesConnet");
+                return console.log("Error:\nToken is invalid or missing\n\nEvilMC\nc0d9d by DesConnet");
             }
             return console.log(err)
         })
