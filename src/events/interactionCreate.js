@@ -13,11 +13,11 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
 
         if (!command) return;
 
-        if (unstop && config.unstopableMode.enableUnstopableMode == false) return crashers.errorembed(client, interaction, interaction.commandName, 'Режим атаки без остановки в данном боте отключен!');
+        if (unstop && config.unstopableMode.enableUnstopableMode == false) return crashers.errorembed(client, interaction, interaction.commandName, 'Non-stop attack mode is disabled in this bot!');
 
-        if (client.attacks.size >= config.countAttacks && command.disableOnAttack) return crashers.errorembed(client, interaction, interaction.commandName, 'Превышено количество одновременных атак!');
+        if (client.attacks.size >= config.countAttacks && command.disableOnAttack) return crashers.errorembed(client, interaction, interaction.commandName, 'The number of simultaneous attacks is exceeded!');
 
-        if (config.whitelistmode === true && !whitelist.includes(interaction.user.id)) return crashers.errorembed(client, interaction, interaction.commandName, "Вы не находитесь в Вайтлисте!");
+        if (config.whitelistmode === true && !whitelist.includes(interaction.user.id)) return crashers.errorembed(client, interaction, interaction.commandName, "You are not on the Whitelist!");
 
         return command.execute(client, args, interaction);
     } 
@@ -28,8 +28,8 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
         if (!button) return;
         if (button.onlyAttackOwner) {
             const Attack = client.attacks.find(x => x.msgID == interaction.message.id);
-            if (!Attack) return interaction.reply({content: "Данная атака уже не действительна", ephemeral: true});
-            if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "Это не ваша атака", ephemeral: true});
+            if (!Attack) return interaction.reply({content: "The attack is no longer valid", ephemeral: true});
+            if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "This is not your attack", ephemeral: true});
         }
 
         return button.execute(client, interaction);
@@ -41,8 +41,8 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
         if (!selectMenu) return;
         if (selectMenu.onlyAttackOwner) {
             const Attack = client.attacks.find(x => x.msgID == interaction.message.id);
-            if (!Attack) return interaction.reply({content: "Данная атака уже не действительна", ephemeral: true});
-            if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "Это не ваша атака", ephemeral: true});
+            if (!Attack) return interaction.reply({content: "The attack is no longer valid", ephemeral: true});
+            if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "This is not your attack", ephemeral: true});
         }
 
         return selectMenu.execute(client, interaction);
@@ -54,8 +54,8 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
         if (!Modal) return;
         if (Modal.onlyAttackOwner) {
             const Attack = client.attacks.find(x => x.msgID == interaction.message.id);
-            if (!Attack) return interaction.reply({content: "Данная атака уже не действительна", ephemeral: true});
-            if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "Это не ваша атака", ephemeral: true});
+            if (!Attack) return interaction.reply({content: "The attack is no longer valid", ephemeral: true});
+            if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "This is not your attack", ephemeral: true});
         }
 
         return Modal.execute(client, interaction);
