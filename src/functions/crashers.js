@@ -16,8 +16,8 @@ module.exports = {
                 name: interaction.user.tag,
                 iconURL: interaction.user.displayAvatarURL({ dynamic: true })
             })
-            .addField("Команда:", `/${command.name}`, false)
-            .addField("Причина:", `${text}`, false)
+            .addField("Command:", `/${command.name}`, false)
+            .addField("Reason:", `${text}`, false)
             .setFooter({
                 text: `${interaction.guild.name} | EvilMC`,
                 iconURL: client.user.avatarURL({dynamic: true})
