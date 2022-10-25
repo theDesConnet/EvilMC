@@ -32,7 +32,7 @@ class Attack {
                 console.log(`StdErr: ${stderr}`);
                 return;
             }
-            console.log(`Была запущена атака: ${this.jaroptions.jarname}`)
+            console.log(`An attack has been launched: ${this.jaroptions.jarname}`)
             console.log(`[Attack log] ${stdout}`);
         })
 
@@ -59,17 +59,17 @@ class Attack {
         let runembed;
 
         if (this.unstopable == false) {
-            runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port} \n \n  ► Атака запущена! ✅ \n ► На 60 секунд!!\n ☆ Made with ♥ by DesConnet ☆`);
+            runembed = this.embed.setDescription(`**► Method: ${this.method}** \n \n **► Information** \n IP: ${this.host} \n Port: ${this.port} \n \n  ► The attack has been launched! ✅ \n ► For 60 seconds!!\n ☆ Made with ♥ by DesConnet ☆`);
 
             this.interaction.reply({ embeds: [runembed] })
 
             setTimeout(() => this.stopAttack(), 60000)
         } else {
-            runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port} \n \n  ► Атака запущена! ✅ \n ► До тех пор пока вы не нажмете остановить!!\n ☆ Made with ♥ by DesConnet ☆`);
+            runembed = this.embed.setDescription(`**► Method: ${this.method}** \n \n **► Information** \n IP: ${this.host} \n Port: ${this.port} \n \n  ► The attack has been launched! ✅ \n ► Until you click to stop!!\n ☆ Made with ♥ by DesConnet ☆`);
 
             const stopBtn = new Discord.MessageButton()
                 .setCustomId("stopAttack")
-                .setLabel("Остановить")
+                .setLabel("Stop")
                 .setStyle("DANGER");
 
             this.interaction.reply({ embeds: [runembed], components: [new Discord.MessageActionRow({components: [stopBtn]})], fetchReply: true}).then((msg) => {
@@ -80,7 +80,7 @@ class Attack {
 
     stopAttack() {
         killPrc(this.pid);
-        const endembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port} \n \n ► Атака Завершена!\n ☆ Made with ♥ by DesConnet ☆`);
+        const endembed = this.embed.setDescription(`**► Method: ${this.method}** \n \n **► Information** \n IP: ${this.host} \n Port: ${this.port} \n \n ► Attack completed\n ☆ Made with ♥ by DesConnet ☆`);
         this.interaction.editReply({ embeds: [endembed], components: [] });
         this.crashPrc.removeAllListeners();
         this.AttacksArray.delete(this.host, this);
