@@ -32,7 +32,7 @@ module.exports = new Command({
         const port = args.getNumber("port") || 25565;
         const unstop = args.getBoolean("unstopable") || false;
 
-        if (hostValidattor(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP");
+        if (hostValidattor(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Invalid IP");
         
         const attack = new Attack({
             jaroptions: {
