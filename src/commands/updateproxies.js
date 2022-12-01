@@ -20,7 +20,7 @@ module.exports = new Command({
             response.pipe(file)
             console.log(`[${moment.utc(Date.now())}] [*] Прокси успешно обновлены`)
         });
-        const embed = new Discord.MessageEmbed()
+        const embed = new Discord.EmbedBuilder()
         .setTitle("Успех!")
         .setDescription(`Прокси были успешно обновлены!`)
         .setFooter(`${message.guild.name} | EvilMC`, client.user.displayAvatarURL(dynamic = true))

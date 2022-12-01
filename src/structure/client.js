@@ -6,14 +6,17 @@ const Button = require('./button.js');
 const selectMenu = require('./selectMenu.js');
 const Modal = require('./modal.js');
 
-const intents = new Discord.Intents(32767);
-
 const fs = require('fs');
 
 //Класс клиента
 class Client extends Discord.Client {
     constructor() {
-        super({ intents })
+        super({ intents: [
+            Discord.GatewayIntentBits.Guilds,
+            Discord.GatewayIntentBits.GuildMessages,
+            Discord.GatewayIntentBits.GuildVoiceStates,
+            Discord.GatewayIntentBits.MessageContent
+          ], partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER', 'GUILD_MEMBER'] })
 
         /**
          * @type {Discord.Collection<string, Command>}

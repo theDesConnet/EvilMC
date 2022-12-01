@@ -1,10 +1,10 @@
 /** format */
 
 const Command = require('../structure/command.js');
-const Discord = require('discord.js');
 const util = require('minecraft-server-util');
-const hostValidattor = require('is-valid-hostname');
+//const hostValidattor = require('is-valid-hostname');
 const crashers = require('../functions/crashers.js');
+const Discord = require('discord.js');
 
 module.exports = new Command({
     name: "resolver",
@@ -13,20 +13,18 @@ module.exports = new Command({
     disableOnAttack: false,
     slashCommandOptions: [{
         name: "host",
-        type: "STRING",
+        type: Discord.ApplicationCommandOptionType.String,
         description: "Enter host or ip server",
         required: true
-    },{
+    }, {
         name: "port",
         description: "Enter port server",
-        type: "NUMBER",
+        type: Discord.ApplicationCommandOptionType.Number,
         required: false
     }],
     async execute(client, args, interaction){
         const host = args.getString("host");
         const port = args.getNumber("port");
-
-        if (hostValidattor(host) == false) return crashers.errorembed(client, interaction, interaction.commandName, "Не валидный IP");
 
         try {
             let responce;
@@ -34,8 +32,7 @@ module.exports = new Command({
             if (!port) responce = await util.status(host)
             else responce = await util.status(host, port);
 
-            let embed = new Discord.MessageEmbed({
-                color: 'RANDOM',
+            let embed = new Discord.EmbedBuilder({
                 author: {
                     name: `Информация о сервере "${host}"`,
                 },
@@ -68,19 +65,19 @@ module.exports = new Command({
                     text: `${interaction.guild.name} | EvilMC`,
                     iconURL: `${client.user.displayAvatarURL(dynamic = true)}`
                 }
-            })
+            }).setColor('Random');
 
             let b64, img, attachment;
 
             responce.favicon ? (
                 b64 = responce.favicon.split(','),
                 img = new Buffer(b64[1], 'base64'),
-                attachment = new Discord.MessageAttachment(img, 'srvIcon.png'),
+                attachment = new Discord.AttachmentBuilder(img, {name: 'srvIcon.png'}),
                 embed.setThumbnail('attachment://srvIcon.png'),
-                interaction.reply({embeds: [embed], files: [attachment]})
-                ) : interaction.reply({embeds: [embed]});
+                await interaction.reply({embeds: [embed], files: [attachment]})
+                ) : await interaction.reply({embeds: [embed]});
         } catch (err) {
-            crashers.errorembed(client, interaction, interaction.commandName, `${err}`);
+            await crashers.errorembed(client, interaction, interaction.commandName, `${err}`, false);
         }
     }
 });

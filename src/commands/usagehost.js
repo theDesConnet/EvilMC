@@ -14,7 +14,7 @@ module.exports = new Command({
         var mem = osu.mem
         var memused = (await mem.used()).usedMemMb
         cpu.usage().then(cpuusage => {
-            let embed = new Discord.MessageEmbed().setThumbnail(client.user.displayAvatarURL(dynamic = true)).setTitle("Host Usage").setDescription(`**CPU Usage:** ${cpuusage}%\n**RAM Usage:** ${memused} mb`).setFooter({
+            let embed = new Discord.EmbedBuilder().setThumbnail(client.user.displayAvatarURL(dynamic = true)).setTitle("Host Usage").setDescription(`**CPU Usage:** ${cpuusage}%\n**RAM Usage:** ${memused} mb`).setFooter({
                 text: `${interaction.guild.name} | EvilMC`,
                 iconURL: client.user.avatarURL({ dynamic: true })
             });
