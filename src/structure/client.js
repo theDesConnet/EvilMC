@@ -5,6 +5,7 @@ const Attack = require('./attack.js');
 const Button = require('./button.js');
 const selectMenu = require('./selectMenu.js');
 const Modal = require('./modal.js');
+const pkg = require('../package.json');
 
 const fs = require('fs');
 
@@ -42,6 +43,11 @@ class Client extends Discord.Client {
          * @type {Discord.Collection<string, Modal>}
          */
         this.modals = new Discord.Collection();
+
+        /**
+         * @type {String}
+         */
+        this.version = pkg.version;
     }
 
     RunBot(token) {
