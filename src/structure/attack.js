@@ -109,7 +109,7 @@ class Attack {
                     runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port ? this.port : 25565} \n \n  ► Атака запускается... \n ☆ Made with ♥ by DesConnet ☆`);
 
                     this.interaction.editReply({ embeds: [runembed] })
-                    this.sendMsgToServer(config.msgToServer.botName, config.msgToServer.botPass, this.host, this.port, config.msgToServer.msg, true).then(() => {
+                    this.sendMsgToServer(config.msgToServer.msg).then(() => {
                         setTimeout(() => this.runAttack(), 1500);
                     })
                 } else {
