@@ -3,13 +3,13 @@ const Client = require('./client.js');
 const child = require('child_process');
 const killPrc = require('tree-kill');
 const crashers = require('../functions/crashers.js');
-const mineflayer = require('mineflayer');
 const config = require('../jsons/config.json');
 const mp = require('minecraft-protocol');
+const mineflayer = require('mineflayer');
 
 class Attack {
     /**
-     * @typedef {{client: Client, interaction: Discord.CommandInteraction, jaroptions: {jarname: string, jarargs: string}, AttacksArray: Discord.Collection<string, Attack>, ownerID: string, msgID: string, embed: Discord.EmbedBuilder, host: string, port: string, method: string, unstopable: boolean, crashPrc: child.ChildProcess, pid: Number}} AttackOptions
+     * @typedef {{client: Client, interaction: Discord.CommandInteraction, jaroptions: {jarname: string, jarargs: string}, AttacksArray: Discord.Collection<string, Attack>, ownerID: string, msgID: string, embed: Discord.EmbedBuilder, host: string, port: Number, method: string, unstopable: boolean, crashPrc: child.ChildProcess, pid: Number}} AttackOptions
      * @param {AttackOptions} options 
      */
     constructor(options) {
@@ -27,16 +27,18 @@ class Attack {
             this.crashPrc = options.crashPrc,
             this.pid = options.pid
 
-            if (config.autoResolver && !this.port) {
-                try {
-                    crashers.autoResolver(this.host).then((host, port) => {
-                        this.host = host;
-                        this.port = port;
-                        this.prepareAttack();
-                    })
-
-                } catch { }
-            } else this.prepareAttack();
+        
+        console.log(this.port);
+        if (config.autoResolver && this.port === 0) {
+            console.log(this.port);
+            try {
+                crashers.autoResolver(this.host).then((host, port) => {
+                    this.host = host;
+                    this.port = port;
+                    this.prepareAttack();
+                })
+            } catch { }
+        } else this.prepareAttack();
     }
 
     async runJar() {
@@ -59,12 +61,13 @@ class Attack {
             }
         } catch (err) {
             await crashers.errorembed(this.client, this.interaction, this.interaction.commandName, err);
+            console.log(err);
         }
     }
 
     /**
      * Отправление сообщения на сервер
-     * @param {String} msg 
+     * @param {String} msg - Сообщение которое мы хотим отправить
      */
     async sendMsgToServer(msg) {
         const bot = mineflayer.createBot({
@@ -106,7 +109,7 @@ class Attack {
                     runembed = this.embed.setDescription(`**► Метод: ${this.method}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port ? this.port : 25565} \n \n  ► Атака запускается... \n ☆ Made with ♥ by DesConnet ☆`);
 
                     this.interaction.editReply({ embeds: [runembed] })
-                    await this.sendMsgToServer(config.msgToServer.msg).then(() => {
+                    this.sendMsgToServer(config.msgToServer.botName, config.msgToServer.botPass, this.host, this.port, config.msgToServer.msg, true).then(() => {
                         setTimeout(() => this.runAttack(), 1500);
                     })
                 } else {
@@ -144,6 +147,7 @@ class Attack {
                 this.interaction.editReply({ embeds: [runembed], components: [new Discord.ActionRowBuilder({ components: [stopBtn] })], fetchReply: true })
             }
         } catch (err) {
+            console.log(err);
             await crashers.errorembed(this.client, this.interaction, this.interaction.commandName, err, true);
         }
     }

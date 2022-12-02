@@ -30,7 +30,7 @@ module.exports = new Command({
     }],
     async execute(client, args, interaction){
         let host = args.getString("host");
-        let port = args.getNumber("port") || null;
+        let port = args.getNumber("port") || 0;
         const unstop = args.getBoolean("unstopable") || false;
 
         interaction.deferReply({fetchReply: true}).then((msg) => {
@@ -45,7 +45,7 @@ module.exports = new Command({
                 AttacksArray: client.attacks,
                 method: "AvarionCrasher 💥",
                 host: host,
-                port: `${port}`,
+                port: port,
                 unstopable: unstop,
                 ownerID: interaction.user.id
             })

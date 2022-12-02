@@ -2,6 +2,7 @@
 const Discord = require('discord.js');
 const Client = require('../structure/client.js');
 const util = require('minecraft-server-util');
+const mineflayer = require('mineflayer');
 
 module.exports = {
     /**

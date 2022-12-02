@@ -12,7 +12,7 @@
     "msgToServer": {
         "enable": true,
         "botName": "EvilMC",
-        "msg": "Упс...\nПохоже ты перешел кому-то дорогу, пожелаю только удачи\n\ncrashed by EvilMC (c0d9d by DesConnet)\nhttps://github.com/theDesConnet/EvilMC",
+        "msg": "Упс... Похоже ты перешел кому-то дорогу, пожелаю только удачи | crashed by EvilMC (c0d9d by DesConnet) [https://github.com/theDesConnet/EvilMC]",
         "botPass": "theGreatEvilMC"
     }
 }
