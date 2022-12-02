@@ -27,7 +27,7 @@ class Attack {
             this.crashPrc = options.crashPrc,
             this.pid = options.pid
 
-            if (config.autoResolver) {
+            if (config.autoResolver && !this.port) {
                 try {
                     crashers.autoResolver(this.host).then((host, port) => {
                         this.host = host;
