@@ -137,7 +137,7 @@ class Attack {
                 const stopBtn = new Discord.ButtonBuilder()
                     .setCustomId("stopAttack")
                     .setLabel("Остановить")
-                    .setStyle("DANGER");
+                    .setStyle(Discord.ButtonStyle.Danger);
 
                 this.interaction.editReply({ embeds: [runembed], components: [new Discord.ActionRowBuilder({ components: [stopBtn] })], fetchReply: true })
             }
