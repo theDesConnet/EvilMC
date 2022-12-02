@@ -76,8 +76,10 @@ class Attack {
         bot.on('login', () => {
             bot.chat(`/register ${config.msgToServer.botPass} ${config.msgToServer.botPass}`);
             bot.chat(`/login ${config.msgToServer.botPass}`);
-            bot.chat(msg);
-            bot.quit();
+            setTimeout(() => {
+                bot.chat(msg);
+                setTimeout(() => bot.quit(), 1500);
+            }, 2500);
         })
 
         bot.on('end', async (reason) => {
