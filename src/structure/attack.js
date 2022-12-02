@@ -105,7 +105,7 @@ class Attack {
 
                     this.interaction.editReply({ embeds: [runembed] })
                     await this.sendMsgToServer(config.msgToServer.msg).then(() => {
-                        this.runAttack();
+                        setTimeout(() => this.runAttack(), 1500);
                     })
                 } else {
                     this.runAttack();
