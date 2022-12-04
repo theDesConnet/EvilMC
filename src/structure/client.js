@@ -48,6 +48,13 @@ class Client extends Discord.Client {
          * @type {String}
          */
         this.version = pkg.version;
+
+        this.activeThreads = {
+            nullping: 0,
+            avarion: 0,
+            auth: 0,
+            extreme: 0
+        }
     }
 
     RunBot(token) {

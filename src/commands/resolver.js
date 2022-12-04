@@ -20,11 +20,15 @@ module.exports = new Command({
         name: "port",
         description: "Enter port server",
         type: Discord.ApplicationCommandOptionType.Number,
+        maxValue: 65536,
+        minValue: 1,
         required: false
     }],
     async execute(client, args, interaction){
         const host = args.getString("host");
         const port = args.getNumber("port");
+
+        interaction.deferReply({ fetchReply: true });
 
         try {
             let responce;
@@ -71,13 +75,13 @@ module.exports = new Command({
 
             responce.favicon ? (
                 b64 = responce.favicon.split(','),
-                img = new Buffer(b64[1], 'base64'),
+                img = new Buffer.from(b64[1], 'base64'),
                 attachment = new Discord.AttachmentBuilder(img, {name: 'srvIcon.png'}),
                 embed.setThumbnail('attachment://srvIcon.png'),
-                await interaction.reply({embeds: [embed], files: [attachment]})
-                ) : await interaction.reply({embeds: [embed]});
+                await interaction.editReply({embeds: [embed], files: [attachment]})
+                ) : await interaction.editReply({embeds: [embed]});
         } catch (err) {
-            await crashers.errorembed(client, interaction, interaction.commandName, `${err}`, false);
+            await crashers.errorembed(client, interaction, interaction.commandName, `${err}`, true);
         }
     }
 });

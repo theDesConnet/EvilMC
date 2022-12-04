@@ -2,7 +2,7 @@ const Event = require('../structure/event.js');
 const crashers = require('../functions/crashers.js');
 const whitelist = require('../jsons/whitelist.json').whitelistid;
 const config = require('../jsons/config.json');
-const { InteractionType, ComponentType } = require('discord.js');
+const { InteractionType, ComponentType, PermissionsBitField } = require('discord.js');
 
 module.exports = new Event('interactionCreate', async (client, interaction) => {
     if (interaction.user.bot) return;
@@ -17,16 +17,11 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
     
             if (unstop && config.unstopableMode.enableUnstopableMode == false) return await crashers.errorembed(client, interaction, interaction.commandName, 'Режим атаки без остановки в данном боте отключен!', false);
     
-            if (client.attacks.size >= config.countAttacks && command.disableOnAttack) return await crashers.errorembed(client, interaction, interaction.commandName, 'Превышено количество одновременных атак!', false);
+            if (config.countAttacks != 0 && client.attacks.size >= config.countAttacks && command.disableOnAttack && client.activeThreads[interaction.commandName] == 0) return await crashers.errorembed(client, interaction, interaction.commandName, 'Превышено количество одновременных атак!', false);
     
             if (config.whitelistmode === true && !whitelist.includes(interaction.user.id)) return await crashers.errorembed(client, interaction, interaction.commandName, "Вы не находитесь в Вайтлисте!", false);
     
             command.execute(client, args, interaction);
-            /**try {
-                command.execute(client, args, interaction);
-            } catch (err) {
-                return crashers.errorembed(client, interaction, interaction.commandName, err.toString(), false);
-            }**/
             break;
 
         case InteractionType.MessageComponent:
@@ -34,7 +29,7 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
                 const button = client.buttons.get(interaction.customId);
 
                 if (!button) return;
-                if (button.onlyAttackOwner && !interaction.memberPermissions.has("ADMINISTRATOR")) {
+                if (button.onlyAttackOwner && !!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
                     const Attack = client.attacks.find(x => x.msgID == interaction.message.id);
                     if (!Attack) return interaction.reply({content: "Данная атака уже не действительна", ephemeral: true});
                     if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "Это не ваша атака", ephemeral: true});
@@ -47,7 +42,7 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
                 const selectMenu = client.selectMenus.get(interaction.customId);
 
                 if (!selectMenu) return;
-                if (selectMenu.onlyAttackOwner && !interaction.memberPermissions.has("ADMINISTRATOR")) {
+                if (selectMenu.onlyAttackOwner && !interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
                     const Attack = client.attacks.find(x => x.msgID == interaction.message.id);
                     if (!Attack) return interaction.reply({content: "Данная атака уже не действительна", ephemeral: true});
                     if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "Это не ваша атака", ephemeral: true});
@@ -61,7 +56,7 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
             const Modal = client.modals.get(interaction.customId);
 
             if (!Modal) return;
-            if (Modal.onlyAttackOwner && !interaction.memberPermissions.has("ADMINISTRATOR")) {
+            if (Modal.onlyAttackOwner && !interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
                 const Attack = client.attacks.find(x => x.msgID == interaction.message.id);
                 if (!Attack) return interaction.reply({content: "Данная атака уже не действительна", ephemeral: true});
                 if (Attack.ownerID != interaction.user.id) return interaction.reply({content: "Это не ваша атака", ephemeral: true});
