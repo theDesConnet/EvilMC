@@ -1,0 +1,43 @@
+{
+    "Language": "RU-ru",
+    "TEXT": {
+        "loadedLanguage": "Языковой пакет %Lang% был успешно загружен",
+        "loadedButtonComponent": "Компонент (Кнопка) с ID \"%btnID%\" была успешно загружена",
+        "loadedSlashCommand": "Slash команда \"%slashCmd%\" была загружена",
+        "loadedEvent": "Ивент: \"%event%\" был загружен",
+        "loadedSelectMenuComponent": "Компонент (selectMenu) с ID \"%selMenu%\" была успешно загружена",
+        "loadedModalComponent": "Компонент (Modal) с ID \"%modal%\" была успешно загружена",
+
+        "inactiveAttackError": "Данная атака уже не действительна.",
+        "countAttacksError": "Превышено количество одновременных атак!",
+        "disableUnstopableModeError": "Режим атаки без остановки в данном боте отключен!",
+        "notOwnerAttackError": "Это не ваша атака",
+        "whitelistError": "Вы не находитесь в Вайтлисте!",
+        "timeoutError": "**Время ожидания отклика сервера вышло.**\n\nВозможные причины:\n```1.Сервер выключен\n2.IP и/или Порт введены некоректно.\n3.Боту не удалось пропинговать майнкрафт сервер из-за пустого порта```\n\nПроверьте правильность введенного IP, Порта и повторите попытку.",
+
+        "prepareAttack": "**► Метод: %method%** \n \n **► Информация** \n IP: %host% \n Port: %port% \n \n  ► Атака запускается... ",
+        "runAttack": "**► Метод: %method%** \n \n **► Информация** \n IP: %host% \n Port: %port% \n \n  ► Атака запущена! ✅ \n ► На 60 секунд!!",
+        "runUnstopableAttack": "**► Метод: %method%** \n \n **► Информация** \n IP: %host% \n Port: %port% \n \n  ► Атака запущена! ✅ \n ► До тех пор пока вы не нажмете остановить!!",
+        "stopAttack": "**► Метод: %method%** \n \n **► Информация** \n IP: %host% \n Port: %port% \n \n ► Атака Завершена!",
+
+        "runAttackLog": "[LOG] Была запущена атака: %attack%\n[LOG] Название jar: %name%\n[LOG] Аргументы jar: %args%\n[LOG] Запустил атаку: %owner%",
+        "stopAttackLog": "[LOG] Атака %attack% запущенная %owner% была остановлена",
+        "botLogoutLog": "[LOG] Бот вышел с сервера майнкрафт",
+
+        "stopAttackLabel": "Остановить",
+
+        "aboutBotTitle": "О боте",
+        "aboutBotDescription": "Бот для проверки серверов Minecraft на устойчивость к различный методам краша",
+        "aboutBotVersion": "Версия",
+
+        "clientPing": "Сердцебиение клиента",
+        "discordAPIPing": "Ответ api Discord",
+        "msPing": "мс",
+
+        "resolverTitle": "Информация о сервере",
+
+        "hostUsageTitle": "Использование хоста",
+        "hostUsageCPU": "Использование CPU",
+        "hostUsageMem": "Использование RAM"
+    }
+}

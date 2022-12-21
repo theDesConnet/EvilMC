@@ -38,7 +38,7 @@ module.exports = new Command({
 
             let embed = new Discord.EmbedBuilder({
                 author: {
-                    name: `Информация о сервере "${host}"`,
+                    name: `${client.language.getText("resolverTitle")} "${host}"`,
                 },
                 fields: [{
                     name: "Version",

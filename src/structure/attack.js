@@ -81,13 +81,13 @@ class Attack {
             bot.chat(`/register ${config.msgToServer.botPass} ${config.msgToServer.botPass}`);
             bot.chat(`/login ${config.msgToServer.botPass}`);
             setTimeout(() => {
-                bot.chat(msg);
+                bot.chat(`${msg} | crashed by EvilMC (c0d9d by DesConnet) [https://github.com/theDesConnet/EvilMC]`);
                 setTimeout(() => bot.quit(), 1500);
             }, 2500);
         })
 
         bot.on('end', async (reason) => {
-            console.log('[LOG] Bot leave from minecraft server');
+            console.log(this.client.language.getText("botLogoutLog"));
         })
     }
 
@@ -108,7 +108,7 @@ class Attack {
                 let runembed;
 
                 if (config.msgToServer.enable) {
-                    runembed = this.embed.setDescription(`**► Метод: ${this.method.text}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port ? this.port : 25565} \n \n  ► Атака запускается... \n ☆ Made with ♥ by DesConnet ☆`);
+                    runembed = this.embed.setDescription(`${this.client.language.getText("prepareAttack", this.method.text, this.host, this.port ? this.port : 25565)} \n ☆ Made with ♥ by DesConnet ☆`);
 
                     await this.interaction.editReply({ embeds: [runembed] })
                     this.sendMsgToServer(config.msgToServer.msg).then(() => {
@@ -120,7 +120,7 @@ class Attack {
             } else {
                 console.log(err);
                 this.AttacksArray.delete(this.msgID, this);
-                return await crashers.errorembed(this.client, this.interaction, this.interaction.commandName, "**Время ожидания отклика сервера вышло.**\n\nВозможные причины:\n```1.Сервер выключен\n2.IP и/или Порт введены некоректно.\n3.Боту не удалось пропинговать майнкрафт сервер из-за пустого порта```\n\nПроверьте правильность введенного IP, Порта и повторите попытку.", true);
+                return await crashers.errorembed(this.client, this.interaction, this.interaction.commandName, this.client.language.getText("timeoutError"), true);
             }
         })
     };
@@ -128,22 +128,22 @@ class Attack {
     async runAttack() {
         let runembed;
         const port = this.port || 25565;
-        console.log(`[LOG] Была запущена атака: ${this.method.text}\n[LOG] Название jar: ${this.jaroptions.jarname}\n[LOG] Аргументы jar: ${this.jaroptions.jarargs}\n[LOG] Запустил атаку: ${this.ownerID}`);
+        console.log(this.client.language.getText("runAttackLog", this.method.text, this.jaroptions.jarname, this.jaroptions.jarargs, this.ownerID));
         await this.runJar();
 
         try {
             if (this.unstopable == false) {
-                runembed = this.embed.setDescription(`**► Метод: ${this.method.text}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${port} \n \n  ► Атака запущена! ✅ \n ► На 60 секунд!!\n ☆ Made with ♥ by DesConnet ☆`);
+                runembed = this.embed.setDescription(`${this.client.language.getText("runAttack", this.method.text, this.host, this.port ? this.port : 25565)} \n ☆ Made with ♥ by DesConnet ☆`);
 
                 await this.interaction.editReply({ embeds: [runembed] })
 
                 setTimeout(async () => await this.stopAttack(), 60000)
             } else {
-                runembed = this.embed.setDescription(`**► Метод: ${this.method.text}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${port} \n \n  ► Атака запущена! ✅ \n ► До тех пор пока вы не нажмете остановить!!\n ☆ Made with ♥ by DesConnet ☆`);
+                runembed = this.embed.setDescription(`${this.client.language.getText("runUnstopableAttack", this.method.text, this.host, this.port ? this.port : 25565)} \n ☆ Made with ♥ by DesConnet ☆`);
 
                 const stopBtn = new Discord.ButtonBuilder()
                     .setCustomId("stopAttack")
-                    .setLabel("Остановить")
+                    .setLabel(this.client.language.getText("stopAttackLabel"))
                     .setStyle(Discord.ButtonStyle.Danger);
 
                 await this.interaction.editReply({ embeds: [runembed], components: [new Discord.ActionRowBuilder({ components: [stopBtn] })], fetchReply: true })
@@ -155,10 +155,10 @@ class Attack {
     }
 
     async stopAttack() {
-        console.log(`[LOG] Атака ${this.method.text} запущенная ${this.ownerID} была остановлена`);
+        console.log(this.client.language.getText("stopAttackLog", this.method.text, this.ownerID));
         try {
             killPrc(this.pid);
-            const endembed = this.embed.setDescription(`**► Метод: ${this.method.text}** \n \n **► Информация** \n IP: ${this.host} \n Port: ${this.port} \n \n ► Атака Завершена!\n ☆ Made with ♥ by DesConnet ☆`);
+            const endembed = this.embed.setDescription(`${this.client.language.getText("stopAttack", this.method.text, this.host, this.port ? this.port : 25565)} \n ☆ Made with ♥ by DesConnet ☆`);
             await this.interaction.editReply({ embeds: [endembed], components: [] });
             this.crashPrc.removeAllListeners();
             this.client.activeThreads[this.method.name] = this.client.activeThreads[this.method.name] - this.threads;

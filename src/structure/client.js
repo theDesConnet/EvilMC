@@ -6,6 +6,8 @@ const Button = require('./button.js');
 const selectMenu = require('./selectMenu.js');
 const Modal = require('./modal.js');
 const pkg = require('../package.json');
+const Language = require('./language.js');
+const config = require('../jsons/config.json');
 
 const fs = require('fs');
 
@@ -43,6 +45,10 @@ class Client extends Discord.Client {
          * @type {Discord.Collection<string, Modal>}
          */
         this.modals = new Discord.Collection();
+
+        this.language = new Language({
+            languageFile: require(`../languages/${config.languageFileName.endsWith(".json") ? config.languageFileName : `${config.languageFileName}.json`}`)
+        })
 
         /**
          * @type {String}
@@ -92,7 +98,7 @@ class Client extends Discord.Client {
                     components.forEach((button) => {
                         const btn = require(`../components/buttons/${button}`)
                         this.buttons.set(btn.buttonID, btn);
-                        console.log(`[INFO] Компонент (Кнопка) с ID "${btn.buttonID}" была успешно загружена`);
+                        console.log(`[INFO] ${this.language.getText("loadedButtonComponent", btn.buttonID)}`);
                     })
                     break;
 
@@ -100,7 +106,7 @@ class Client extends Discord.Client {
                     components.forEach((SelectMenu) => {
                         const selMenu = require(`../components/selectMenus/${SelectMenu}`)
                         this.selectMenus.set(selMenu.selectMenuID, selMenu);
-                        console.log(`[INFO] Компонент (selectMenu) с ID "${selMenu.selectMenuID}" была успешно загружена`);
+                        console.log(`[INFO] ${this.language.getText("loadedSelectMenuComponent", selMenu.selectMenuID)}`);
                     })
                     break;
 
@@ -108,7 +114,7 @@ class Client extends Discord.Client {
                     components.forEach((modal) => {
                         const modalInteraction = require(`../components/modals/${modal}`)
                         this.modals.set(modalInteraction.modalID, modalInteraction);
-                        console.log(`[INFO] Компонент (Modal) с ID "${modalInteraction.modalID}" была успешно загружена`);
+                        console.log(`[INFO] ${this.language.getText("loadedModalComponent", modalInteraction.modalID)}`);
                     })
                     break;
             }
@@ -119,7 +125,7 @@ class Client extends Discord.Client {
             const command = await this.application.commands.set(slashCommands);
 
             command.forEach((cmd) => {
-                console.log(`[INFO] Slash команда "${cmd.name} была загружена"`);
+                console.log(`[INFO] ${this.language.getText("loadedSlashCommand", cmd.name)}`);
             })
         })
 
@@ -130,7 +136,7 @@ class Client extends Discord.Client {
                  * @type {Event}
                  */
                 const event = require(`../events/${file}`)
-                console.log(`Ивент: ${event.event} был загружен`)
+                console.log(`[INFO] ${this.language.getText("loadedEvent", event.event)}`);
                 this.on(event.event, event.run.bind(null, this))
             })
 

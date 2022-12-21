@@ -2,6 +2,7 @@
     "token":"token-here",
     "whitelistmode": false,
     "autoResolver": true,
+    "languageFileName": "ru",
     "countAttacks": 1,
 
     "unstopableMode": {
@@ -12,7 +13,7 @@
     "msgToServer": {
         "enable": true,
         "botName": "EvilMC",
-        "msg": "Упс... Похоже ты перешел кому-то дорогу, пожелаю только удачи | crashed by EvilMC (c0d9d by DesConnet) [https://github.com/theDesConnet/EvilMC]",
+        "msg": "Упс... Похоже ты перешел кому-то дорогу, пожелаю только удачи",
         "botPass": "theGreatEvilMC"
     },
 

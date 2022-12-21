@@ -1,6 +1,6 @@
 {
   "name": "evilmc",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "a Discord bot for Crashing minecraft server",
   "main": "bot.js",
   "scripts": {
