@@ -28,7 +28,7 @@ module.exports = new Command({
         const host = args.getString("host");
         const port = args.getNumber("port");
 
-        interaction.deferReply({ fetchReply: true });
+        await interaction.deferReply({ fetchReply: true });
 
         try {
             let responce;

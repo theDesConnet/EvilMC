@@ -4,6 +4,7 @@
     "autoResolver": true,
     "languageFileName": "ru",
     "countAttacks": 1,
+    "autoRestartWithCluster": false,
 
     "unstopableMode": {
         "enableUnstopableMode": true,

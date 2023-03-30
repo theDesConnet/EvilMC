@@ -63,7 +63,7 @@ class Client extends Discord.Client {
         }
     }
 
-    RunBot(token) {
+    async RunBot(token) {
         //Обработчик команд
         const commandFiles = fs.readdirSync('./commands/')
             .filter(file => file.endsWith('.js'))

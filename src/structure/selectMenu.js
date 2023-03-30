@@ -6,7 +6,7 @@ const Client = require('./client.js');
  * @param {Client} client 
  * @param {Discord.SelectMenuInteraction} interaction
  */
-function ExecuteFuctions(client, interaction) { }
+async function ExecuteFuctions(client, interaction) { }
 
 //Класс select меню
 class selectMenu {

@@ -13,13 +13,13 @@ module.exports = new Command({
         var cpu = osu.cpu
         var mem = osu.mem
         var memused = (await mem.used()).usedMemMb
-        cpu.usage().then(cpuusage => {
+        cpu.usage().then(async (cpuusage) => {
             let embed = new Discord.EmbedBuilder().setThumbnail(client.user.displayAvatarURL(dynamic = true)).setTitle(client.language.getText("hostUsageTitle")).setDescription(`**${client.language.getText("hostUsageCPU")}:** ${cpuusage}%\n**${client.language.getText("hostUsageMem")}:** ${memused} mb`).setFooter({
                 text: `${interaction.guild.name} | EvilMC`,
                 iconURL: client.user.avatarURL({ dynamic: true })
             });
 
-            interaction.reply({ embeds: [embed] });
+            await interaction.reply({ embeds: [embed] });
         })
     }
 })

@@ -7,7 +7,7 @@ const Client = require('./client.js');
  * @param {Discord.CommandInteractionOption} args 
  * @param {Discord.CommandInteraction} interaction
  */
-function ExecuteFunctions(client, args, interaction) { }
+async function ExecuteFunctions(client, args, interaction) { }
 
 class Command {
     /**

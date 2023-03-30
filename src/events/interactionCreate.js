@@ -21,8 +21,7 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
     
             if (config.whitelistmode === true && !whitelist.includes(interaction.user.id)) return await crashers.errorembed(client, interaction, interaction.commandName, client.language.getText("whitelistError"), false);
     
-            command.execute(client, args, interaction);
-            break;
+            return await command.execute(client, args, interaction);
 
         case InteractionType.MessageComponent:
             if (interaction.componentType === ComponentType.Button) {
@@ -35,7 +34,7 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
                     if (Attack.ownerID != interaction.user.id) return interaction.reply({content: client.language.getText("notOwnerAttackError"), ephemeral: true});
                 }
         
-                return button.execute(client, interaction);
+                return await button.execute(client, interaction);
             }
 
             if (interaction.componentType === ComponentType.StringSelect) {
@@ -48,7 +47,7 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
                     if (Attack.ownerID != interaction.user.id) return interaction.reply({content: client.language.getText("notOwnerAttackError"), ephemeral: true});
                 }
         
-                return selectMenu.execute(client, interaction);
+                return await selectMenu.execute(client, interaction);
             }
             break;
 
@@ -62,7 +61,6 @@ module.exports = new Event('interactionCreate', async (client, interaction) => {
                 if (Attack.ownerID != interaction.user.id) return interaction.reply({content: client.language.getText("notOwnerAttackError"), ephemeral: true});
             }
     
-            return Modal.execute(client, interaction);
-            break;
+            return await Modal.execute(client, interaction);
     }
 });
