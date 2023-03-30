@@ -9,7 +9,7 @@
   "author": "DesConnet",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.7.1",
+    "discord.js": "^14.8.0",
     "minecraft-protocol": "^1.36.2",
     "minecraft-server-util": "^5.2.9",
     "mineflayer": "^4.5.1",
