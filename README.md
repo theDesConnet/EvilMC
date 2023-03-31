@@ -4,6 +4,8 @@ This is a discord bot that crashes minecraft servers using exploits.
 
 > And this project was unfinished 
 
+> Developing version 2.0...
+
 # Running
 To run the bot, you will need [node.js](https://nodejs.org/en/download/) at least version 16.9.0, as well as the dependencies that the bot uses to install them in the root folder of the project, open the console and write ` npm i` after which the dependencies should be installed.
 
