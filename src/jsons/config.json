@@ -1,0 +1,51 @@
+{
+    "General": {
+        "token":"token-here",
+        "countAttacks": 1,
+        "jarPath": "jars",
+        "autoRestartWithCluster": true,
+        "languageFileName": "en",
+        "maxThreads": 2000,
+        "maxAttackThreads": 2000,
+        "defaultEphemeralError": true,
+        "ownerID": "your-id-here"
+    },
+
+    "Features": {
+        "msgToServer": {
+            "enable": true,
+            "settings": {
+                "botName": "EvilMC",
+                "msg": "Упс... Похоже ты перешел кому-то дорогу, пожелаю только удачи",
+                "botPass": "theGreatEvilMC"
+            }
+        },
+
+        "autoResolver": {
+            "enable": true
+        },
+
+        "unstopableMode": {
+            "enable": true,
+            "settings": {
+                "stopAttackOnlyOwnerAttack": true
+            }
+        }
+    },
+
+    "Attacks": [{
+        "name": "avarion",
+        "text": "AvarionCrasher",
+        "jar": {
+            "name": "AvarionCrasher.jar",
+            "args": "host-%HOST% port-%PORT% threads-%THREADS%"
+        }
+    }, {
+        "name": "nullping",
+        "text": "NullPing",
+        "jar": {
+            "name": "WaterfallBypass.jar",
+            "args": "host-%HOST% port-%PORT% threads-%THREADS%"
+        }
+    }]
+}

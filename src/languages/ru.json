@@ -1,0 +1,61 @@
+{
+    "Language": "RU-ru",
+    "TEXT": {
+        "addCommand": "Команда: %cmdname% была добавлена в список команд!",
+
+        "loadedLanguage": "Языковой пакет %Lang% был успешно загружен",
+        "loadedButtonComponent": "Компонент (Кнопка) с ID \"%btnID%\" была успешно загружена",
+        "loadedSlashCommand": "Slash команда \"%slashCmd%\" была загружена",
+        "loadedEvent": "Ивент: \"%event%\" был загружен",
+        "loadedSelectMenuComponent": "Компонент (selectMenu) с ID \"%selMenu%\" была успешно загружена",
+        "loadedModalComponent": "Компонент (Modal) с ID \"%modal%\" была успешно загружена",
+        "loadedSubcommand": "Подкоманда: %cmdname% %scmdname% была загружена!",
+
+        "hostOfflineError": "Данный хост сейчас выключен...",
+        "notPermissionError": "У вас нет прав чтобы выполнить это!",
+        "tokenInvalidError": "Ошибка:\nТокен недействителен или он отсутствует",
+        "inactiveAttackError": "Данная атака уже не действительна.",
+        "countAttacksError": "Превышено количество одновременных атак!",
+        "disableUnstopableModeError": "Режим атаки без остановки в данном боте отключен!",
+        "notOwnerAttackError": "Это не ваша атака",
+        "maxThreadError": "**Превышено количество потоков**\n\nВозможные причины:\n```1.Вы указали больше потоков чем может запустить бот в данный момент (Активные потоки/Максимальное кол-во потоков: %activethreads%/%maxthreads%)\n2.Вы указали больше потоков для одной атаки чем может запустить бот```\n\nУкажите другое количество потоков и повторите попытку",
+        "timeoutError": "**Время ожидания отклика сервера вышло.**\n\nВозможные причины:\n```1.Сервер выключен\n2.IP и/или Порт введены некоректно.\n3.Боту не удалось пропинговать майнкрафт сервер из-за пустого порта```\n\nПроверьте правильность введенного IP, Порта и повторите попытку.",
+
+        "prepareAttack": "**► Метод: %method%** \n \n **► Информация** \n IP: %host% \n Port: %port% \n \n  ► Атака запускается... ",
+        "runAttack": "**► Метод: %method%** \n \n **► Информация** \n IP: %host% \n Port: %port% \n \n  ► Атака запущена! ✅ \n ► На 60 секунд!!",
+        "runUnstopableAttack": "**► Метод: %method%** \n \n **► Информация** \n IP: %host% \n Port: %port% \n \n  ► Атака запущена! ✅ \n ► До тех пор пока вы не нажмете остановить!!",
+        "stopAttack": "**► Метод: %method%** \n \n **► Информация** \n IP: %host% \n Port: %port% \n \n ► Атака Завершена!",
+
+        "runAttackLog": "Была запущена атака: %attack%\n[LOG] Название jar: %name%\n[LOG] Аргументы jar: %args%\n[LOG] Запустил атаку: %owner%",
+        "stopAttackLog": "Атака %attack% запущенная %owner% была остановлена",
+        "botLoginLog": "Бот зашел на сервер",
+        "botAuthLog": "Бот авторизовался на сервере",
+        "botSendMessageLog": "Бот отправил сообщение на сервер",
+        "botLogoutLog": "Бот вышел с сервера майнкрафт",
+
+        "stopAttackLabel": "Остановить",
+
+        "aboutBotTitle": "О боте",
+        "aboutBotDescription": "Бот для проверки серверов Minecraft на устойчивость к различный методам краша",
+        "aboutBotVersion": "Версия",
+
+        "clientPing": "Сердцебиение клиента",
+        "discordAPIPing": "Ответ api Discord",
+        "msPing": "мс",
+
+        "resolverTitle": "Информация о сервере",
+        "resolverVersion": "Версия",
+        "resolverProtocol": "Протокол",
+        "resolverMOTD": "MOTD",
+        "resolverIP": "IP",
+        "resolverPort": "Порт",
+        "resolverPlayers": "Игроки",
+        "resolverPlayerInfo": "Онлайн: `%online%`\nМаксимум: `%max%`",
+
+        "hostUsageTitle": "Использование хоста",
+        "hostUsageCPU": "Использование CPU",
+        "hostUsageMem": "Использование RAM",
+
+        "restartDone": "Начался перезапуск бота"
+    }
+}
